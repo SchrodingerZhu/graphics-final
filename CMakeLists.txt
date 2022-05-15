@@ -7,8 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 option(ENABLE_AMDGPU_OFFLOAD "Enable AMDGPU Offload" OFF)
 option(ENABLE_CUDA_OFFLOAD "Enable CUDA Offload" OFF)
 
+include_directories(include)
+
 add_subdirectory(contrib)
-add_library(hdrplus SHARED src/main.cpp)
+add_library(hdrplus SHARED src/hdr.cpp)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     target_compile_options(hdrplus PRIVATE -march=native -mfma -Ofast -ffast-math -flto)
@@ -32,3 +34,5 @@ endif ()
 
 
 add_subdirectory(test)
+add_subdirectory(hdr-rs)
+target_link_libraries(hdrplus PUBLIC hdr-rs)
