@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 3.23)
 project(hdrplus)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
-find_package(OpenMP REQUIRED)
 
-message(STATUS "OpenMP Configuration: ${OpenMP_CXX_INCLUDE_DIRS}:${OpenMP_CXX_LIBRARIES}")
-message(STATUS "Boost Configuration: ${Boost_INCLUDE_DIRS}:${Boost_LIBRARIES}")
 option(ENABLE_AMDGPU_OFFLOAD "Enable AMDGPU Offload" OFF)
 option(ENABLE_CUDA_OFFLOAD "Enable CUDA Offload" OFF)
 
+add_subdirectory(contrib)
 add_library(hdrplus SHARED src/main.cpp)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
@@ -18,9 +16,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDeb
     message(STATUS "Set full optimization: ${CMAKE_CXX_FLAGS}")
 endif()
 
-target_include_directories(hdrplus PUBLIC ${OpenMP_CXX_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-target_link_libraries(hdrplus PUBLIC ${OpenMP_CXX_LIBRARIES} ${Boost_LIBRARIES})
-target_compile_options(hdrplus PUBLIC ${OpenMP_CXX_FLAGS})
+target_link_libraries(hdrplus PUBLIC hdr-support)
 
 if (ENABLE_AMDGPU_OFFLOAD)
     set(CMAKE_CXX_FLAGS "-fopenmp=libomp -fopenmp-targets=amdgcn ${CMAKE_CXX_FLAGS}")
@@ -34,4 +30,5 @@ if (ENABLE_CUDA_OFFLOAD)
     target_link_libraries(hdrplus PUBLIC omptarget.rtl.cuda omptarget -rtlib=libgcc -unwindlib=libgcc -stdlib=libstdc++)
 endif ()
 
-add_subdirectory(contrib)
+
+add_subdirectory(test)
