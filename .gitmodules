@@ -1,0 +1,9 @@
+[submodule "contrib/snmalloc"]
+	path = contrib/snmalloc
+	url = https://github.com/microsoft/snmalloc
+[submodule "contrib/googletest"]
+	path = contrib/googletest
+	url = https://github.com/google/googletest
+[submodule "contrib/abseil-cpp"]
+	path = contrib/abseil-cpp
+	url = https://github.com/abseil/abseil-cpp
