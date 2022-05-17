@@ -5,8 +5,10 @@
 #include <iostream>
 #include <filesystem>
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/utils/logger.hpp>
 #include <hdr/hdr.hpp>
 int main(int argc, char** argv) {
+    cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_VERBOSE);
     auto dirpath = argv[1];
     std::vector<float> time;
     std::vector<cv::Mat> images;

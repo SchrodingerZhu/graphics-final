@@ -1,6 +1,7 @@
 find_package(Boost REQUIRED COMPONENTS program_options system)
 find_package(OpenMP REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(ArrayFire REQUIRED)
 
 message(STATUS "OpenMP Configuration: ${OpenMP_CXX_INCLUDE_DIRS}:${OpenMP_CXX_LIBRARIES}")
 message(STATUS "Boost Configuration: ${Boost_INCLUDE_DIRS}:${Boost_LIBRARIES}")
@@ -23,4 +24,4 @@ target_link_libraries(
 
 target_compile_options(hdr-support INTERFACE ${OpenMP_CXX_FLAGS})
 target_include_directories(hdr-support INTERFACE ${Boost_INCLUDE_DIRS} ${OpenMP_CXX_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(hdr-support INTERFACE ${Boost_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} )
+target_link_libraries(hdr-support INTERFACE ${Boost_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${OpenCV_LIBS} ArrayFire::af)
